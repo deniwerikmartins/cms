@@ -1,6 +1,7 @@
 <?php
 
 use App\Country;
+use App\Photo;
 use App\Post;
 use App\Role;
 use App\User;
@@ -50,11 +51,11 @@ Route::get('/admin/posts/example', array('as'=>'admin.home',  function(){
 /* -------------------------------------------
  *| RAW QUERIES                              |
  *|------------------------------------------| */
-
+/*
 
 Route::get('/insert', function(){
     DB::insert('insert into posts(title, content) values(?,?)', ['laravel is awasome with deni', 'laravel is the best thing that as happened to php, period']);
-});
+});*/
 
 //Route::get('/read', function(){
 //   $results = DB::select('select * from posts where id = ?', [1]);
@@ -75,13 +76,13 @@ Route::get('/insert', function(){
 //
 //    return $updated;
 //});
-
+/*
 Route::get('/delete', function (){
 
     $deleted = DB::delete('delete from posts where id = ?', [1]);
 
     return $deleted;
-});
+});*/
 
 /* -------------------------------------------
  *| ELOQUENT                                 |
@@ -145,7 +146,7 @@ Route::get('/delete', function (){
 //    $post->save();
 //
 //});
-
+/*
 Route::get('/create', function(){
 
    Post::create(['title'=>'the create method 3', 'content'=>'wow i\'am learning a lot whi edwin diaz 3']);
@@ -163,7 +164,7 @@ Route::get('/delete', function(){
     $post = Post::find(4);
 
     $post->delete();
-});
+});*/
 
 //Route::get('/delete2', function (){
 //
@@ -172,7 +173,7 @@ Route::get('/delete', function(){
 //    //  Post::where('is_admin',0)->delete();
 //
 //});
-
+/*
 Route::get('/softdelete', function (){
 
     Post::find(2)->delete();
@@ -210,14 +211,14 @@ Route::get('/restore', function (){
 
 Route::get('/forcedelete', function(){
     Post::onlyTrashed()->where('is_admin', 0 )->forceDelete();
-});
+});*/
 
 /* -------------------------------------------
  *| ELOQUENT RELATIONSHIPS                   |
  *|------------------------------------------| */
 
 //ONE TO one relationhsip
-
+/*
 Route::get('/user/{id}/post', function($id){
     //->post = metodo cridao no model User
     //->content = campo no banco
@@ -228,10 +229,10 @@ Route::get('/post/{id}/user', function($id){
 
     return Post::find($id)->user->name;
 
-});
+});*/
 
 //ONE TO Many relationhsip
-
+/*
 Route::get('/posts', function(){
     $user = User::find(1);
 
@@ -271,7 +272,7 @@ Route::get('/user/country', function(){
 
     }
 
-});
+});*/
 
 //polymorphic relations
 
@@ -282,11 +283,16 @@ Route::get('/user/photos', function(){
     }
 });
 
-Route::get('/post/photos', function(){
-    $post = Post::find(1);
+Route::get('/post/{id}/photos', function($id){
+    $post = Post::find($id);
     foreach ($post->photos as $photo){
         echo $photo->path . "<br>";
     }
+});
+
+Route::get('/photo/{id}/post', function($id){
+   $photo = Photo::findOrFail($id);
+   return $photo->imageable;
 });
 
 
