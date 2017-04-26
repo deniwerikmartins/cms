@@ -4,6 +4,7 @@ use App\Country;
 use App\Photo;
 use App\Post;
 use App\Role;
+use App\Tag;
 use App\User;
 
 /*
@@ -295,5 +296,22 @@ Route::get('/photo/{id}/post', function($id){
    return $photo->imageable;
 });
 
+//polymorphic many to many
+
+Route::get('/post/tag', function (){
+   $post = Post::find(1);
+
+   foreach ($post->tags as $tag){
+       echo $tag->name;
+   }
+});
+
+Route::get('/tag/post/', function (){
+   $tag = Tag::find(2);
+
+   foreach ($tag->posts as $post){
+       echo $post->title;
+   }
+});
 
 
